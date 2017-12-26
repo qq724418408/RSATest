@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import com.forms.wjl.rsa.R;
 import com.forms.wjl.rsa.utils.test.RSA;
-import com.forms.wjl.rsa.utils.http.utils.LogUtils;
-
-import java.io.InputStream;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -68,27 +65,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String userName = etUserName.getText().toString().trim();
         String pwd = etPwd.getText().toString().trim();
         String pwd2 = etPwd2.getText().toString().trim();
-        InputStream inPublicKey = getResources().openRawResource(R.raw.gumou_rsa_public_key);
-        InputStream inPrivateKey = getResources().openRawResource(R.raw.gumou_pkcs8_rsa_private_key);
-        byte[] bytes;
-        try {
-            bytes = mRSA.encryptByPublicKey(pwd.getBytes());
-            encryptPwd = RSA.encodeBase64(bytes);
-            byte[] decryptByte = RSA.decodeBase64(encryptPwd);
-            decryptByte = mRSA.decryptByPrivateKey(decryptByte);
-            decryptPwd = new String(decryptByte);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String publicKey = mRSA.getPublicKey();
-        String privateKey = mRSA.getPrivateKey();
-        LogUtils.e("明文：" + pwd);
-        LogUtils.e("publicKey：" + publicKey);
-        LogUtils.e("privateKey：" + privateKey);
-        LogUtils.e("密文：" + encryptPwd);
-        LogUtils.e("解密：" + decryptPwd);
-        tvEncrypt.setText("密文:\n" + encryptPwd);
-        tvDecrypt.setText("解密:\n" + decryptPwd);
+//        InputStream inPublicKey = getResources().openRawResource(R.raw.gumou_rsa_public_key);
+//        InputStream inPrivateKey = getResources().openRawResource(R.raw.gumou_pkcs8_rsa_private_key);
+//        byte[] bytes;
+//        try {
+//            bytes = mRSA.encryptByPublicKey(pwd.getBytes());
+//            encryptPwd = RSA.encodeBase64(bytes);
+//            byte[] decryptByte = RSA.decodeBase64(encryptPwd);
+//            decryptByte = mRSA.decryptByPrivateKey(decryptByte);
+//            decryptPwd = new String(decryptByte);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        String publicKey = mRSA.getPublicKey();
+//        String privateKey = mRSA.getPrivateKey();
+//        LogUtils.e("明文：" + pwd);
+//        LogUtils.e("publicKey：" + publicKey);
+//        LogUtils.e("privateKey：" + privateKey);
+//        LogUtils.e("密文：" + encryptPwd);
+//        LogUtils.e("解密：" + decryptPwd);
+//        tvEncrypt.setText("密文:\n" + encryptPwd);
+//        tvDecrypt.setText("解密:\n" + decryptPwd);
     }
 
 }

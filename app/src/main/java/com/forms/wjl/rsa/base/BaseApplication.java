@@ -5,6 +5,7 @@ import android.app.Application;
 import com.forms.wjl.rsa.utils.http.decorter.ContentDecorter;
 import com.forms.wjl.rsa.utils.http.engin.okhttp2engin.OkHttp2Engin;
 import com.forms.wjl.rsa.utils.http.utils.HttpUtils;
+import com.tencent.bugly.Bugly;
 
 public class BaseApplication extends Application {
 
@@ -23,6 +24,7 @@ public class BaseApplication extends Application {
 		 * new OkHttp3Engin()，并将okhttp3的jar包或者依赖库配置成功
 		 */
 		HttpUtils.initHttpEngin(new ContentDecorter(new OkHttp2Engin()));
+		Bugly.init(baseApplication, "1400008376", false);
 	}
 
 }

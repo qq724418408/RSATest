@@ -1,10 +1,10 @@
 package com.forms.wjl.rsa.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +21,10 @@ import com.forms.wjl.rsa.utils.http.config.RequestUtil;
 import com.forms.wjl.rsa.utils.http.utils.LogUtils;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
+import com.komi.slider.ISlider;
+import com.komi.slider.SliderConfig;
+import com.komi.slider.SliderUtils;
+import com.tencent.bugly.beta.Beta;
 
 import java.net.URLEncoder;
 
@@ -34,14 +38,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnLogin;
     private long currentTimeMillis;
     private Intent intent;
+    private ISlider iSlider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Beta.checkUpgrade();
         initViews();
         initListener();
         currentTimeMillis = System.currentTimeMillis();
+        SliderConfig mConfig = new  SliderConfig.Builder()
+                .secondaryColor(Color.TRANSPARENT)
+                .edge(false)
+                .build();
+        iSlider = SliderUtils.attachActivity(this, mConfig);
     }
 
     @Override
@@ -109,18 +120,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnLogin:
-                if (TextUtils.isEmpty(etPwd.getText())) {
-                    Toast.makeText(this, "密码不能为空", Toast.LENGTH_SHORT).show();
-                    return;
+                Intent intent = new Intent();
+                try {
+                    intent.setData(Uri.parse("upwallet://"));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(this, "未安装", Toast.LENGTH_SHORT).show();
+                    intent.setData(Uri.parse("http://www.baidu.com/"));
+                    startActivity(intent);
                 }
-                if (TextUtils.isEmpty(etUserName.getText())) {
-                    Toast.makeText(this, "用户名不能为空", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                getPublicKey();
+
+//                if (TextUtils.isEmpty(etPwd.getText())) {
+//                    Toast.makeText(this, "密码不能为空", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(etUserName.getText())) {
+//                    Toast.makeText(this, "用户名不能为空", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                getPublicKey();
                 break;
             case R.id.tvRegister:
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                startActivity(new Intent(LoginActivity.this, TestActivity.class));
                 finish();
                 break;
             case R.id.tvTime:
@@ -175,5 +196,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         intent = null;
+        iSlider.slideExit();
     }
 }
