@@ -49,17 +49,23 @@
             android:gravity="center"
             android:text="时间" />
 
+        <TextView
+            android:id="@+id/tvCacheSize"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="缓存大小" />
 
         <TextView
             android:id="@+id/tv_select_input"
             android:layout_width="300dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:paddingRight="10dp"
-            android:drawableRight="@mipmap/down"
             android:background="@drawable/bg_filter_down"
+            android:drawableRight="@mipmap/down"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text="请选择" />
     </LinearLayout>
 

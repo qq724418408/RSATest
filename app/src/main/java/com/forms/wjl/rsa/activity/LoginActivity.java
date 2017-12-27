@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.forms.wjl.rsa.R;
 import com.forms.wjl.rsa.bean.PublicKeyBean;
-import com.forms.wjl.rsa.utils.AppInfoUtils;
+import com.forms.wjl.rsa.utils.DataCleanManager;
 import com.forms.wjl.rsa.utils.RSA;
 import com.forms.wjl.rsa.utils.Util;
 import com.forms.wjl.rsa.utils.dialog.DialogUtil;
@@ -32,16 +32,19 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.komi.slider.ISlider;
 import com.komi.slider.SliderConfig;
 import com.komi.slider.SliderUtils;
-import com.tencent.bugly.beta.Beta;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author bubbly
+ */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView tvRegister;
     private TextView tvTime;
+    private TextView tvCacheSize;
     private TextView tvResult;
     private EditText etUserName;
     private EditText etPwd;
@@ -69,6 +72,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      */
     private List<String> testData;
 
+    private void calculatorCacheSiz() {
+        try {
+            String cacheSize = DataCleanManager.getTotalCacheSize(this);
+            tvCacheSize.setText(cacheSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 数据适配器
      */
@@ -80,6 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         //Beta.checkUpgrade();
         initViews();
+        calculatorCacheSiz();
         initListener();
         currentTimeMillis = System.currentTimeMillis();
         SliderConfig mConfig = new SliderConfig.Builder()
@@ -87,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .edge(false)
                 .build();
         iSlider = SliderUtils.attachActivity(this, mConfig);
-        tvResult.setText(Beta.getUpgradeInfo().versionName + "\n" + AppInfoUtils.getVersion(this));
+        //tvResult.setText(Beta.getUpgradeInfo().versionName + "\n" + AppInfoUtils.getVersion(this));
     }
 
     @Override
@@ -120,6 +133,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tvTime.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         mSelectTv.setOnClickListener(this);
+        tvCacheSize.setOnClickListener(this);
     }
 
     private void initViews() {
@@ -130,6 +144,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         etPwd = (EditText) findViewById(R.id.etPwd);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         mSelectTv = (TextView) findViewById(R.id.tv_select_input);
+        tvCacheSize = (TextView) findViewById(R.id.tvCacheSize);
     }
 
     private void login(String userName, String pwd) {
@@ -198,6 +213,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (typeSelectPopup != null && !typeSelectPopup.isShowing()) {
                     typeSelectPopup.showAsDropDown(mSelectTv, 0, 10);
                 }
+                break;
+            case R.id.tvCacheSize:
+                DataCleanManager.clearAllCache(LoginActivity.this);
+                calculatorCacheSiz();
+                break;
+            default:
                 break;
         }
     }
