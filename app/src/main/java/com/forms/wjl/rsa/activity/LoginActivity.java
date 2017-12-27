@@ -2,17 +2,25 @@ package com.forms.wjl.rsa.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forms.wjl.rsa.R;
 import com.forms.wjl.rsa.bean.PublicKeyBean;
+import com.forms.wjl.rsa.utils.AppInfoUtils;
 import com.forms.wjl.rsa.utils.RSA;
 import com.forms.wjl.rsa.utils.Util;
 import com.forms.wjl.rsa.utils.dialog.DialogUtil;
@@ -27,6 +35,8 @@ import com.komi.slider.SliderUtils;
 import com.tencent.bugly.beta.Beta;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,20 +49,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private long currentTimeMillis;
     private Intent intent;
     private ISlider iSlider;
+    /**
+     * TextView选择框
+     */
+    private TextView mSelectTv;
+
+    /**
+     * popup窗口里的ListView
+     */
+    private ListView mTypeLv;
+
+    /**
+     * popup窗口
+     */
+    private PopupWindow typeSelectPopup;
+
+    /**
+     * 模拟的假数据
+     */
+    private List<String> testData;
+
+    /**
+     * 数据适配器
+     */
+    private ArrayAdapter<String> testDataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Beta.checkUpgrade();
+        //Beta.checkUpgrade();
         initViews();
         initListener();
         currentTimeMillis = System.currentTimeMillis();
-        SliderConfig mConfig = new  SliderConfig.Builder()
+        SliderConfig mConfig = new SliderConfig.Builder()
                 .secondaryColor(Color.TRANSPARENT)
                 .edge(false)
                 .build();
         iSlider = SliderUtils.attachActivity(this, mConfig);
+        tvResult.setText(Beta.getUpgradeInfo().versionName + "\n" + AppInfoUtils.getVersion(this));
     }
 
     @Override
@@ -84,6 +119,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tvRegister.setOnClickListener(this);
         tvTime.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
+        mSelectTv.setOnClickListener(this);
     }
 
     private void initViews() {
@@ -93,6 +129,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         etUserName = (EditText) findViewById(R.id.etUserName);
         etPwd = (EditText) findViewById(R.id.etPwd);
         btnLogin = (Button) findViewById(R.id.btnLogin);
+        mSelectTv = (TextView) findViewById(R.id.tv_select_input);
     }
 
     private void login(String userName, String pwd) {
@@ -154,6 +191,62 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 }).show(getSupportFragmentManager(), "all");
                 break;
+            case R.id.tv_select_input:
+                // 点击控件后显示popup窗口
+                initSelectPopup();
+                // 使用isShowing()检查popup窗口是否在显示状态
+                if (typeSelectPopup != null && !typeSelectPopup.isShowing()) {
+                    typeSelectPopup.showAsDropDown(mSelectTv, 0, 10);
+                }
+                break;
+        }
+    }
+
+    /**
+     * 初始化popup窗口
+     */
+    private void initSelectPopup() {
+        mTypeLv = new ListView(this);
+        TestData();
+        // 设置适配器
+        testDataAdapter = new ArrayAdapter<String>(this, R.layout.popup_text_item, testData);
+        mTypeLv.setAdapter(testDataAdapter);
+
+        // 设置ListView点击事件监听
+        mTypeLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // 在这里获取item数据
+                String value = testData.get(position);
+                // 把选择的数据展示对应的TextView上
+                mSelectTv.setText(value);
+                // 选择完后关闭popup窗口
+                typeSelectPopup.dismiss();
+            }
+        });
+        typeSelectPopup = new PopupWindow(mTypeLv, mSelectTv.getWidth(), ActionBar.LayoutParams.WRAP_CONTENT, true);
+        // 取得popup窗口的背景图片
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.bg_corner);
+        typeSelectPopup.setBackgroundDrawable(drawable);
+        typeSelectPopup.setFocusable(true);
+        typeSelectPopup.setOutsideTouchable(true);
+        typeSelectPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                // 关闭popup窗口
+                typeSelectPopup.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 模拟假数据
+     */
+    private void TestData() {
+        testData = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            String str = new String("数据" + i);
+            testData.add(str);
         }
     }
 
