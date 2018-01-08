@@ -31,7 +31,8 @@
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:theme="@android:style/Theme.Translucent" />
-        <activity android:name=".activity.TestActivity"></activity>
+        <activity android:name=".activity.TestActivity" />
+        <activity android:name=".activity.CameraActivity"></activity>
     </application>
 
 </manifest>

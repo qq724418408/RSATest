@@ -193,7 +193,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                getPublicKey();
                 break;
             case R.id.tvRegister:
-                startActivity(new Intent(LoginActivity.this, TestActivity.class));
+                //startActivity(new Intent(LoginActivity.this, TestActivity.class));
+                startActivity(new Intent(LoginActivity.this, CameraActivity.class));
                 finish();
                 break;
             case R.id.tvTime:

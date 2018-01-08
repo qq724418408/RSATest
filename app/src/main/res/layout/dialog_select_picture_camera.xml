@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/picture"
+        android:gravity="center"
+        android:text="相册"
+        android:textSize="18sp"
+        android:background="@drawable/shape_radiu_bg_white"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <TextView
+        android:id="@+id/camera"
+        android:gravity="center"
+        android:text="拍照"
+        android:textSize="18sp"
+        android:background="@drawable/shape_radiu_bg_white"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <TextView
+        android:id="@+id/cancle"
+        android:gravity="center"
+        android:text="取消"
+        android:textSize="18sp"
+        android:background="@drawable/shape_radiu_bg_white"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+</LinearLayout>
