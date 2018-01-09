@@ -52,8 +52,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         path = Environment.getExternalStorageDirectory() + File.separator + "image" + File.separator
                 + "temp";
         mScDialog = new XDialog.Builder(this).setContentView(R.layout.dialog_select_picture_camera)
-                .setWidthAndHeight(-1, -2).setOnClickListener(R.id.picture, this).setOnClickListener(R.id.camera, this)
-                .setOnClickListener(R.id.cancle, this).formBottom(true).create();
+                .setWidthAndHeight(-1, -2).setOnClickListener(R.id.tvPicture, this).setOnClickListener(R.id.tvCamera, this)
+                .setOnClickListener(R.id.tvCancel, this).formBottom(true).create();
     }
 
     @Override
@@ -62,17 +62,17 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btnCamera:
                 mScDialog.show();
                 break;
-            case R.id.picture:
+            case R.id.tvPicture:
                 temUri = getTempUri();
                 startPicture();
                 mScDialog.dismiss();
                 break;
-            case R.id.camera:
+            case R.id.tvCamera:
                 temUri = getTempUri();
                 startCamera();
                 mScDialog.dismiss();
                 break;
-            case R.id.cancle:
+            case R.id.tvCancel:
                 mScDialog.dismiss();
                 break;
             default:
