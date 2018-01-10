@@ -49,8 +49,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         btnCamera = (Button) findViewById(R.id.btnCamera);
         ivPhoto = (ImageView) findViewById(R.id.ivPhoto);
         btnCamera.setOnClickListener(this);
-        path = Environment.getExternalStorageDirectory() + File.separator + "image" + File.separator
-                + "temp";
+        path = Environment.getExternalStorageDirectory() + File.separator + "image" + File.separator + "temp";
         mScDialog = new XDialog.Builder(this).setContentView(R.layout.dialog_select_picture_camera)
                 .setWidthAndHeight(-1, -2).setOnClickListener(R.id.tvPicture, this).setOnClickListener(R.id.tvCamera, this)
                 .setOnClickListener(R.id.tvCancel, this).formBottom(true).create();
