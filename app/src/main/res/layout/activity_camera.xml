@@ -1,14 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:popupbtn="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:text="" />
+        android:layout_height="50dp"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <com.forms.wjl.rsa.view.PopupButton
+                android:id="@+id/btn2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:button="@null"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="区域"
+                android:textColor="@drawable/selector_check_box_text_color"
+                android:textSize="18sp"
+                popupbtn:normalBg="@color/colorWhite"
+                popupbtn:normalIcon="@mipmap/btn_arrow_down"
+                popupbtn:pressBg="@color/colorWhite"
+                popupbtn:pressIcon="@mipmap/btn_arrow_up" />
+        </FrameLayout>
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@color/colorLine" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <com.forms.wjl.rsa.view.PopupButton
+                android:id="@+id/btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:button="@null"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="种类"
+                android:textColor="@drawable/selector_check_box_text_color"
+                android:textSize="18sp"
+                popupbtn:normalBg="@color/colorWhite"
+                popupbtn:normalIcon="@mipmap/btn_arrow_down"
+                popupbtn:pressBg="@color/colorWhite"
+                popupbtn:pressIcon="@mipmap/btn_arrow_up" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorLine" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,4 +87,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="50dp"
+        android:text="123456789123456789123456789123456789123456789123456789"
+        android:textSize="50sp" />
 </LinearLayout>

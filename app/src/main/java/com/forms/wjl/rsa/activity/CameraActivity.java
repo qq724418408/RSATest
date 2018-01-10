@@ -12,21 +12,28 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.forms.wjl.rsa.R;
+import com.forms.wjl.rsa.adapter.PopupBtnAdapter;
 import com.forms.wjl.rsa.utils.BitmapUtils;
 import com.forms.wjl.rsa.utils.FileUtils;
 import com.forms.wjl.rsa.utils.dialog.XDialog;
 import com.forms.wjl.rsa.utils.http.utils.LogUtils;
+import com.forms.wjl.rsa.view.PopupButton;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author bubbly
@@ -39,6 +46,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private File photoFile; // 照片路径
     private Dialog mScDialog;// 选择照片弹窗
     private Button btnCamera;
+    private PopupButton btn;
+    private PopupButton btn2;
+    private LayoutInflater inflater;
+    private List<String> cValues;
     private ImageView ivPhoto;
     private String path;
 
@@ -53,6 +64,72 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         mScDialog = new XDialog.Builder(this).setContentView(R.layout.dialog_select_picture_camera)
                 .setWidthAndHeight(-1, -2).setOnClickListener(R.id.tvPicture, this).setOnClickListener(R.id.tvCamera, this)
                 .setOnClickListener(R.id.tvCancel, this).formBottom(true).create();
+        btn = (PopupButton) findViewById(R.id.btn);
+        inflater = LayoutInflater.from(this);
+
+        View view = inflater.inflate(R.layout.layout_popup_lv, null);
+        ListView lv = view.findViewById(R.id.lv);
+        final String[] arr = {"蔬菜", "水果", "家禽", "五谷杂粮", "其他"};
+        final PopupBtnAdapter adapter = new PopupBtnAdapter(this, arr);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.setPressPosition(position);
+                adapter.notifyDataSetChanged();
+                btn.setText(arr[position]);
+                btn.hidePopup();
+            }
+        });
+        btn.setPopupView(view);
+
+        View view2 = inflater.inflate(R.layout.layout_popup_2lv, null);
+        ListView pLv = view2.findViewById(R.id.parent_lv);
+        final ListView cLv = view2.findViewById(R.id.child_lv);
+        List<String> pList = new ArrayList<>();
+        final List<List<String>> cList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            pList.add("一级区域" + i);
+            List<String> t = new ArrayList<>();
+            for (int j = 0; j < 15; j++) {
+                t.add(i + "二级区域" + j);
+            }
+            cList.add(t);
+        }
+
+        cValues = new ArrayList<>();
+        cValues.addAll(cList.get(0));
+        final PopupBtnAdapter pAdapter = new PopupBtnAdapter(this, pList);
+        final PopupBtnAdapter cAdapter = new PopupBtnAdapter(this, cValues);
+        pAdapter.setPressPosition(0);
+
+        pLv.setAdapter(pAdapter);
+        cLv.setAdapter(cAdapter);
+
+        pLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                pAdapter.setPressPosition(position);
+                pAdapter.notifyDataSetChanged();
+                cValues.clear();
+                cValues.addAll(cList.get(position));
+                cAdapter.notifyDataSetChanged();
+                cAdapter.setPressPosition(-1);
+                cLv.setSelection(0);
+            }
+        });
+
+        cLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                cAdapter.setPressPosition(position);
+                cAdapter.notifyDataSetChanged();
+                btn2.setText(cValues.get(position));
+                btn2.hidePopup();
+            }
+        });
+        btn2 = (PopupButton) findViewById(R.id.btn2);
+        btn2.setPopupView(view2);
     }
 
     @Override
