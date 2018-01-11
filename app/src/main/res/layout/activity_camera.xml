@@ -82,17 +82,55 @@
             android:text="拍照" />
     </LinearLayout>
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/tvTest1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_select_green_bg"
+            android:button="@null"
+            android:gravity="center"
+            android:text="特别推荐"
+            android:textColor="@drawable/selector_check_box_text_color" />
+
+        <RadioButton
+            android:id="@+id/tvTest2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/shape_select_green_bg"
+            android:button="@null"
+            android:gravity="center"
+            android:text="附近"
+            android:textColor="@drawable/selector_check_box_text_color" />
+    </RadioGroup>
+
+
     <ImageView
         android:id="@+id/ivPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-    <TextView
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpSimple"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:padding="50dp"
-        android:text="123456789123456789123456789123456789123456789123456789"
-        android:textSize="50sp" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:overScrollMode="never">
+
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/ptsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top" />
+    </android.support.v4.view.ViewPager>
 </LinearLayout>

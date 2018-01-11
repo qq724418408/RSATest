@@ -7,10 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +22,15 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.forms.wjl.rsa.R;
 import com.forms.wjl.rsa.adapter.PopupBtnAdapter;
+import com.forms.wjl.rsa.adapter.SimpleFragmentPagerAdapter;
+import com.forms.wjl.rsa.fragment.SimpleFragment;
 import com.forms.wjl.rsa.utils.BitmapUtils;
 import com.forms.wjl.rsa.utils.FileUtils;
+import com.forms.wjl.rsa.utils.ScreenUtils;
 import com.forms.wjl.rsa.utils.dialog.XDialog;
 import com.forms.wjl.rsa.utils.http.utils.LogUtils;
 import com.forms.wjl.rsa.view.PopupButton;
@@ -50,6 +58,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private PopupButton btn2;
     private LayoutInflater inflater;
     private List<String> cValues;
+    private List<Fragment> fragmentList = new ArrayList<>();
+    private List<String> titles = new ArrayList<>();
     private ImageView ivPhoto;
     private String path;
 
@@ -57,6 +67,24 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        initView();
+        initViewPager();
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.shape_select_green_bg);
+    }
+
+    private void initViewPager() {
+        fragmentList.add(new SimpleFragment());
+        fragmentList.add(new SimpleFragment());
+        titles.add("推荐");
+        titles.add("附近");
+        //ivPhoto.setImageDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.colorAccent)));
+        ViewPager vpSimple = (ViewPager) findViewById(R.id.vpSimple);
+        //PagerTabStrip ptsTitle = (PagerTabStrip) findViewById(R.id.ptsTitle);
+        SimpleFragmentPagerAdapter simpleFragmentPagerAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, titles);
+        vpSimple.setAdapter(simpleFragmentPagerAdapter);
+    }
+
+    private void initView() {
         btnCamera = (Button) findViewById(R.id.btnCamera);
         ivPhoto = (ImageView) findViewById(R.id.ivPhoto);
         btnCamera.setOnClickListener(this);

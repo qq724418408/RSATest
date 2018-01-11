@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 连框颜色值 -->
+    <item>
+        <selector>
+            <item android:color="@color/colorChecked" android:state_checked="true" >
+                <shape>
+                    <solid android:color="@color/colorChecked" />
+                </shape>
+            </item>
+            <item android:color="@color/colorUnChecked" android:state_checked="false" >
+                <shape>
+                    <solid android:color="@color/colorWhite" />
+                </shape>
+            </item>
+        </selector>
+    </item>
+    <!-- 主体背景颜色值 -->
+    <item android:bottom="3dp">
+        <shape>
+            <solid android:color="@color/colorWhite" />
+        </shape>
+    </item>
+</layer-list>
