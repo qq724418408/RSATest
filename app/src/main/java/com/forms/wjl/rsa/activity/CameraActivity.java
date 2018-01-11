@@ -22,7 +22,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.forms.wjl.rsa.R;
 import com.forms.wjl.rsa.adapter.PopupBtnAdapter;
@@ -30,7 +29,6 @@ import com.forms.wjl.rsa.adapter.SimpleFragmentPagerAdapter;
 import com.forms.wjl.rsa.fragment.SimpleFragment;
 import com.forms.wjl.rsa.utils.BitmapUtils;
 import com.forms.wjl.rsa.utils.FileUtils;
-import com.forms.wjl.rsa.utils.ScreenUtils;
 import com.forms.wjl.rsa.utils.dialog.XDialog;
 import com.forms.wjl.rsa.utils.http.utils.LogUtils;
 import com.forms.wjl.rsa.view.PopupButton;
