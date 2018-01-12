@@ -24,6 +24,7 @@ import com.forms.wjl.rsa.utils.DataCleanManager;
 import com.forms.wjl.rsa.utils.RSA;
 import com.forms.wjl.rsa.utils.Util;
 import com.forms.wjl.rsa.utils.dialog.DialogUtil;
+import com.forms.wjl.rsa.utils.edittext.EditTextUtil;
 import com.forms.wjl.rsa.utils.http.callback.IHttpCallback;
 import com.forms.wjl.rsa.utils.http.config.RequestUtil;
 import com.forms.wjl.rsa.utils.http.utils.LogUtils;
@@ -101,6 +102,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
         iSlider = SliderUtils.attachActivity(this, mConfig);
         //tvResult.setText(Beta.getUpgradeInfo().versionName + "\n" + AppInfoUtils.getVersion(this));
+        EditTextUtil.create(btnLogin, etUserName, etPwd);
     }
 
     @Override

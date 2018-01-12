@@ -33,7 +33,9 @@
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="登录" />
+            android:background="@color/colorGreen"
+            android:text="登录"
+            android:textColor="@color/colorWhite" />
 
         <TextView
             android:id="@+id/tvRegister"
