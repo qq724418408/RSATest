@@ -11,6 +11,7 @@
         android:text="登录" />
 
     <LinearLayout
+        android:id="@+id/lltParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -20,6 +21,7 @@
             android:id="@+id/etUserName"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_gravity="center"
             android:hint="请输入用户名" />
 
         <EditText

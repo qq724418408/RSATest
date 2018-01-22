@@ -1,5 +1,6 @@
 package com.forms.wjl.rsa.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -8,15 +9,19 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.forms.wjl.rsa.R;
 import com.forms.wjl.rsa.bean.PublicKeyBean;
@@ -25,6 +30,7 @@ import com.forms.wjl.rsa.utils.RSA;
 import com.forms.wjl.rsa.utils.Util;
 import com.forms.wjl.rsa.utils.dialog.DialogUtil;
 import com.forms.wjl.rsa.utils.edittext.EditTextUtil;
+import com.forms.wjl.rsa.utils.edittext.EtFocusAnim;
 import com.forms.wjl.rsa.utils.http.callback.IHttpCallback;
 import com.forms.wjl.rsa.utils.http.config.RequestUtil;
 import com.forms.wjl.rsa.utils.http.utils.LogUtils;
@@ -43,6 +49,7 @@ import java.util.List;
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private LinearLayout lltParent;
     private TextView tvRegister;
     private TextView tvTime;
     private TextView tvCacheSize;
@@ -103,6 +110,41 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         iSlider = SliderUtils.attachActivity(this, mConfig);
         //tvResult.setText(Beta.getUpgradeInfo().versionName + "\n" + AppInfoUtils.getVersion(this));
         EditTextUtil.create(btnLogin, etUserName, etPwd);
+
+    }
+
+    private void setEditTextStyle() {
+        etUserName.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        //触发输入框弹出键盘
+        etUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etUserName.setFocusable(true);
+                etUserName.setFocusableInTouchMode(true);
+                etUserName.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+            }
+        });
+        //设置动画
+        new EtFocusAnim.Builder(etUserName)
+                .setPrent(lltParent)
+                .setEtPosition(1)
+                .setAnimaTime(300)
+                .setInterpolator(new DecelerateInterpolator())
+                .showUnFocusAnima(true)
+                .build();
+        etUserName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -139,6 +181,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initViews() {
+        lltParent = (LinearLayout) findViewById(R.id.lltParent);
         tvRegister = (TextView) findViewById(R.id.tvRegister);
         tvTime = (TextView) findViewById(R.id.tvTime);
         tvResult = (TextView) findViewById(R.id.tvResult);
@@ -147,6 +190,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogin = (Button) findViewById(R.id.btnLogin);
         mSelectTv = (TextView) findViewById(R.id.tv_select_input);
         tvCacheSize = (TextView) findViewById(R.id.tvCacheSize);
+        //setEditTextStyle();
     }
 
     private void login(String userName, String pwd) {
@@ -174,16 +218,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnLogin:
-                Intent intent = new Intent();
-                try {
-                    intent.setData(Uri.parse("upwallet://"));
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Toast.makeText(this, "未安装", Toast.LENGTH_SHORT).show();
-                    intent.setData(Uri.parse("http://www.baidu.com/"));
-                    startActivity(intent);
-                }
-
+//                Intent intent = new Intent();
+//                try {
+//                    intent.setData(Uri.parse("upwallet://"));
+//                    startActivity(intent);
+//                } catch (Exception e) {
+//                    Toast.makeText(this, "未安装", Toast.LENGTH_SHORT).show();
+//                    intent.setData(Uri.parse("http://www.baidu.com/"));
+//                    startActivity(intent);
+//                }
 //                if (TextUtils.isEmpty(etPwd.getText())) {
 //                    Toast.makeText(this, "密码不能为空", Toast.LENGTH_SHORT).show();
 //                    return;
